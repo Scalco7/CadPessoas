@@ -3,7 +3,6 @@ package com.cp.rest;
 import com.cp.data.crud.BeanCrudCidade;
 import com.cp.data.crud.BeanCrudPessoa;
 import com.cp.data.model.Cidade;
-import com.cp.data.model.Pessoa;
 import jakarta.ejb.EJB;
 import jakarta.ejb.Stateless;
 import jakarta.ws.rs.*;

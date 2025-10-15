@@ -9,27 +9,34 @@ import java.util.List;
 import com.cp.util.AppLog;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Persistence;
 
 /**
  *
  * @author utfpr
  */
 public abstract class AbstractCrud<T> {
-    
+
     private Class<T> entityClass;
+    protected EntityManager em;
 
     protected AbstractCrud(Class<T> entityClass) {
         this.entityClass = entityClass;
     }
 
+    protected EntityManager getEntityManager() {
+        if (em == null) {
+            em = Persistence.createEntityManagerFactory(EMNames.EMN1, EMNames.getEMN1Props()).createEntityManager();
+            AppLog.getInstance().info("Entity manager criado com sucesso");
+        }
+        return em;
+    }
 
-
-    protected abstract EntityManager getEntityManager();
-
-
-    protected abstract  void close();
-
-
+    protected void close() {
+        if (em != null) {
+            getEntityManager().close();
+        }
+    }
 
     public Exception persist(T entity) {
         try {
@@ -43,7 +50,8 @@ public abstract class AbstractCrud<T> {
             return null;
         } catch (Exception e) {
             getEntityManager().getTransaction().rollback();
-            AppLog.getInstance().warn("Erro ao inserir no banco de dados: " + this.getClass().getName() + "==>" + e.getMessage());
+            AppLog.getInstance()
+                    .warn("Erro ao inserir no banco de dados: " + this.getClass().getName() + "==>" + e.getMessage());
             return e;
         }
     }
@@ -107,6 +115,5 @@ public abstract class AbstractCrud<T> {
         jakarta.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-
 
 }

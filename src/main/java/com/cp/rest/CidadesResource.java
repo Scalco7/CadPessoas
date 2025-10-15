@@ -9,7 +9,7 @@ import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Path("cidades")
 @Stateless
@@ -23,7 +23,7 @@ public class CidadesResource {
     @GET
     @Path("all")
     @Produces({ MediaType.APPLICATION_JSON })
-    public ArrayList<JsonCidade> getCids(){
+    public List<JsonCidade> getCids(){
         ArrayList<JsonCidade> cidadel = new ArrayList<>();
         for(Cidade cid:beanCrudCidade.getAll()){
             cidadel.add(new JsonCidade(cid.getId(),cid.getNome()));
@@ -49,27 +49,5 @@ public class CidadesResource {
         return Response.status(Response.Status.CREATED).entity(novaCidade).build();
     }
 
-
-    /*
-     * MÉTODOS ANTIGOS REMOVIDOS PARA SIMPLIFICAR O CÓDIGO
-     *
-     * @PUT
-     * @Path("add/{id}/{nome}")
-     * @Consumes(MediaType.APPLICATION_JSON)
-     * public void add(@PathParam("id") int id,@PathParam("nome") String nome){...}
-     *
-     * @PUT
-     * @Path("addjson")
-     * @Consumes(MediaType.APPLICATION_JSON)
-     * public void add(JsonObject jsonData){...}
-     *
-     * @PUT
-     * @Path("addobj")
-     * @Consumes(MediaType.APPLICATION_JSON)
-     * public void addObj(Cidade cid){...}
-     */
-
-
     public record JsonCidade(int id, String nome){}
-
 }
