@@ -1,0 +1,6 @@
+{
+    "sonarlint.connectedMode.project": {
+        "connectionId": "scalco7",
+        "projectKey": "Scalco7_CadPessoas"
+    }
+}
